@@ -1,8 +1,8 @@
 // Sistema de Admin
 const ADMIN_PASSWORD = "graca123"; // Senha simples para o vendedor
 
-// URL da nossa API. Para desenvolvimento local, usamos localhost.
-const API_URL = 'https://loja2-dzd1.onrender.com'; // IMPORTANTE: Quando for para produção (Render.com), troque por sua URL online.
+// URL da nossa API - AGORA NO RENDER
+const API_URL = 'https://loja2-dzd1.onrender.com';
 
 let isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
 
@@ -18,8 +18,15 @@ async function carregarProdutos() {
         const response = await fetch(`${API_URL}/api/produtos`); 
         if (response.ok) {
             let produtosDoBanco = await response.json();
-            // O MongoDB já usa _id, que o script espera. Mapeamos para 'id' por segurança.
-            produtos = produtosDoBanco.map(p => ({ ...p, id: p._id }));
+            // ✅ CORREÇÃO: Garantir que as URLs das imagens sejam absolutas
+            produtos = produtosDoBanco.map(p => ({ 
+                ...p, 
+                id: p._id,
+                // Se a imagem for um caminho relativo, converter para URL absoluta
+                imagem: p.imagem && !p.imagem.startsWith('http') 
+                    ? `${API_URL}${p.imagem.startsWith('/') ? '' : '/'}${p.imagem}`
+                    : p.imagem
+            }));
             exibirProdutos();
         } else {
             console.error('Erro ao carregar produtos.json, usando fallback.');
@@ -31,8 +38,6 @@ async function carregarProdutos() {
         exibirProdutos();
     }
 }
-
-
 
 // Inicialização
 document.addEventListener('DOMContentLoaded', function() {
@@ -56,7 +61,7 @@ function exibirProdutos() {
         produtoElement.innerHTML = `
             <div class="product-image">
                 ${produto.imagem ? 
-                    `<img src="${produto.imagem}" alt="${produto.nome}">` : 
+                    `<img src="${produto.imagem}" alt="${produto.nome}" onerror="this.style.display='none'; this.parentNode.innerHTML='${getEmojiCategoria(produto.categoria)}'">` : 
                     getEmojiCategoria(produto.categoria)
                 }
             </div>
@@ -117,7 +122,7 @@ function adicionarAoCarrinho(produtoId) {
 }
 
 function removerDoCarrinho(produtoId) {
-    carrinho = carrinho.filter(item => item._id !== produtoId); // Ajustado para usar _id
+    carrinho = carrinho.filter(item => item._id !== produtoId);
     salvarCarrinho();
     atualizarCarrinho();
 }
@@ -128,7 +133,7 @@ function alterarQuantidade(produtoId, novaQuantidade) {
         return;
     }
     
-    const item = carrinho.find(item => item._id === produtoId); // Ajustado para usar _id
+    const item = carrinho.find(item => item._id === produtoId);
     if (item) {
         item.quantidade = novaQuantidade;
         salvarCarrinho();
@@ -431,7 +436,7 @@ function mostrarPainelAdmin() {
                         <option value="presentes">Kits Presente</option>
                     </select>
                     
-                    <!-- NOVO: Upload de imagem do computador -->
+                    <!-- Upload de imagem do computador -->
                     <div style="border: 2px dashed #ddd; padding: 1.5rem; text-align: center; border-radius: 8px; background: #fafafa;">
                         <input type="file" id="produto-imagem" accept=".jpg,.jpeg,.png,.gif,.webp" style="display: none;">
                         <div id="imagem-preview" style="margin-bottom: 1rem;"></div>
@@ -555,7 +560,6 @@ async function adicionarProdutoComImagem() {
         const response = await fetch(`${API_URL}/api/produtos`, {
             method: 'POST',
             body: formData
-            // Note: Não definir Content-Type - o browser faz automaticamente para FormData
         });
         
         if (response.ok) {
@@ -589,7 +593,6 @@ async function removerProduto(produtoId) {
         if (response.ok) {
             alert('✅ Produto removido com sucesso!');
             await carregarProdutos(); // Recarrega a lista
-            // Recarrega a página para atualizar o painel e a lista de produtos
             location.reload(); 
         } else {
             throw new Error('Erro ao remover produto');
