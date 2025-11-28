@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graça Presentes - Cosméticos</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>💝 Graça Presentes</h1>
+                <p>Cosméticos que realçam sua beleza</p>
+            </div>
+            <div class="header-actions">
+                <button class="cart-btn" onclick="toggleCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count">0</span>
+                </button>
+                <!-- BOTÃO DO VENDEDOR ADICIONADO AQUI -->
+                <button class="admin-btn" onclick="mostrarLoginAdmin()" title="Área do Vendedor">
+                    <i class="fas fa-store"></i> Área do Vendedor
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2>Bem-vinda à sua beleza</h2>
+            <p>Descubra produtos exclusivos que cuidam de você</p>
+        </div>
+    </section>
+
+    <!-- Produtos -->
+    <section class="products">
+        <div class="container">
+            <h2>Nossos Produtos</h2>
+            <div class="products-grid" id="products-grid">
+                <!-- Produtos serão carregados via JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Carrinho -->
+    <div class="cart-overlay" id="cart-overlay">
+        <div class="cart-sidebar">
+            <div class="cart-header">
+                <h3>🛒 Seu Carrinho</h3>
+                <button class="close-cart" onclick="toggleCart()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="cart-items" id="cart-items">
+                <!-- Itens do carrinho -->
+            </div>
+            <div class="cart-total">
+                <p>Total: R$ <span id="cart-total">0.00</span></p>
+                <button class="checkout-btn" onclick="finalizarPedido()">
+                    <i class="fas fa-paper-plane"></i> Enviar Pedido
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Graça Presentes. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
