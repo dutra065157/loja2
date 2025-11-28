@@ -2,7 +2,7 @@
 const ADMIN_PASSWORD = "graca123"; // Senha simples para o vendedor
 
 // URL da nossa API. Para desenvolvimento local, usamos localhost.
-const API_URL = 'http://localhost:3000'; // IMPORTANTE: Quando for para produção (Render.com), troque por sua URL online.
+const API_URL = 'https://loja2-dzd1.onrender.com'; // IMPORTANTE: Quando for para produção (Render.com), troque por sua URL online.
 
 let isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
 
