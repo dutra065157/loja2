@@ -5,6 +5,7 @@ const path = require('path');
 const cors = require('cors');
 
 const produtoRoutes = require('./routes/produtoRoutes'); // Importa as rotas de produtos
+const pedidoRoutes = require('./routes/pedidoRoutes');   // Importa as rotas de pedidos
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -36,6 +37,7 @@ app.use('/images', express.static(path.join(__dirname, 'images'))); // Torna a p
 // --- Rotas da API ---
 // Diz ao Express para usar o arquivo de rotas para qualquer requisição que comece com '/api/produtos'
 app.use('/api/produtos', produtoRoutes);
+app.use('/api/pedidos', pedidoRoutes); // Adiciona a nova rota de pedidos
 
 // --- Iniciar o Servidor ---
 app.listen(PORT, () => {
