@@ -48,33 +48,8 @@ Este projeto foi construído utilizando um stack moderno e robusto, demonstrando
 
 ---
 
-## 🛠️ Como Executar o Projeto Localmente
 
-Siga os passos abaixo para rodar a aplicação na sua máquina.
-
-```bash
-# 1. Clone o repositório
-git clone https://github.com/seu-usuario/seu-repositorio.git
-
-# 2. Navegue até a pasta do projeto
-cd loja2
-
-# 3. Instale as dependências do back-end
-npm install
-
-# 4. Crie um arquivo .env na raiz do projeto e adicione sua string de conexão do MongoDB
-# Exemplo de conteúdo para o arquivo .env:
-MONGODB_URI="mongodb+srv://seu_usuario:sua_senha@seu_cluster.mongodb.net/sua_database"
-
-# 5. Inicie o servidor back-end
-node server.js
-
-# 6. Abra o arquivo `index.html` em seu navegador para acessar a loja.
-# A aplicação estará rodando e se comunicando com o servidor local na porta 3000.
-
-
-
-👨‍💻 Autor
+# 👨‍💻 Autor
 Renato Santos
 
 Desenvolvedor em busca de oportunidades para criar soluções web inovadoras e eficientes.
@@ -82,9 +57,3 @@ Desenvolvedor em busca de oportunidades para criar soluções web inovadoras e e
 LinkedIn GitHub
 
 
-Este `README` vai mostrar aos recrutadores que você não apenas sabe codificar, mas também entende a arquitetura de um projeto, sabe documentá-lo e se preocupa com a apresentação profissional do seu trabalho. Boa sorte na sua busca por uma vaga!
-
-<!--
-[PROMPT_SUGGESTION]Como posso adicionar testes automatizados a este projeto para torná-lo ainda mais profissional?[/PROMPT_SUGGESTION]
-[PROMPT_SUGGESTION]Me ajude a refatorar o código JavaScript do front-end para usar classes e ser mais organizado.[/PROMPT_SUGGESTION]
--->
