@@ -292,7 +292,7 @@ function criarMensagemWhatsApp(pedido) {
 }
 
 function mostrarSucessoPedido(pedido, mensagemWhatsApp) {
-    const numeroWhatsApp = '5511999999999'; // Substitua pelo número do vendedor
+    const numeroWhatsApp = '5519987790800'; // ✅ SUBSTITUA AQUI pelo número real do vendedor (ex: 5511987654321)
     
     const modal = document.createElement('div');
     modal.style.cssText = `
