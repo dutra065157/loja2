@@ -71,3 +71,20 @@ node server.js
 
 # 6. Abra o arquivo `index.html` em seu navegador para acessar a loja.
 # A aplicação estará rodando e se comunicando com o servidor local na porta 3000.
+
+
+
+👨‍💻 Autor
+Renato Santos
+
+Desenvolvedor em busca de oportunidades para criar soluções web inovadoras e eficientes.
+
+LinkedIn GitHub
+
+
+Este `README` vai mostrar aos recrutadores que você não apenas sabe codificar, mas também entende a arquitetura de um projeto, sabe documentá-lo e se preocupa com a apresentação profissional do seu trabalho. Boa sorte na sua busca por uma vaga!
+
+<!--
+[PROMPT_SUGGESTION]Como posso adicionar testes automatizados a este projeto para torná-lo ainda mais profissional?[/PROMPT_SUGGESTION]
+[PROMPT_SUGGESTION]Me ajude a refatorar o código JavaScript do front-end para usar classes e ser mais organizado.[/PROMPT_SUGGESTION]
+-->
