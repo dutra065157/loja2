@@ -3,8 +3,8 @@ const ADMIN_PASSWORD = "graca123"; // Senha simples para o vendedor
 
 // URL da nossa API - AGORA NO RENDER
 // Comente a linha do Render e descomente a do localhost para testar no seu computador
-const API_URL = "https://loja2-dzd1.onrender.com";
-// const API_URL = 'http://localhost:3000';
+// const API_URL = "https://loja2-dzd1.onrender.com";
+const API_URL = "http://localhost:3000";
 
 let isAdminLoggedIn = localStorage.getItem("adminLoggedIn") === "true";
 

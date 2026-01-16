@@ -2,6 +2,7 @@ require("dotenv").config(); // Carrega as variáveis de ambiente do arquivo .env
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
+const fs = require("fs");
 const cors = require("cors");
 
 const produtoRoutes = require("./routes/produtoRoutes"); // Importa as rotas de produtos
@@ -35,6 +36,12 @@ mongoose
     console.error("❌ Erro ao conectar ao MongoDB:", err);
     process.exit(1); // Encerra o processo para o Render tentar reiniciar
   });
+
+// --- Garantir que a pasta de imagens existe ---
+const imagesDir = path.join(__dirname, "images");
+if (!fs.existsSync(imagesDir)) {
+  fs.mkdirSync(imagesDir, { recursive: true });
+}
 
 // Servir arquivos estáticos (HTML, CSS, JS, e as imagens que vamos salvar)
 app.use(express.static(__dirname)); // Serve a pasta 'c:\loja2'
