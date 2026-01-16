@@ -55,5 +55,5 @@ app.use("/api/pedidos", pedidoRoutes); // Adiciona a nova rota de pedidos
 // --- Iniciar o Servidor ---
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
-  console.log("Sua loja está acessível em http://localhost:3000/index.html");
+  console.log(`Sua loja está acessível em http://localhost:${PORT}/index.html`);
 });
