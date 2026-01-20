@@ -2,9 +2,10 @@
 const ADMIN_PASSWORD = "graca123"; // Senha simples para o vendedor
 
 // URL da nossa API - AGORA NO RENDER
-// Comente a linha do Render e descomente a do localhost para testar no seu computador
-const API_URL = "https://loja2-dzd1.onrender.com";
-// const API_URL = "http://localhost:3000";
+// Ajuste automático: detecta se está no Render ou no computador local
+const API_URL = window.location.hostname.includes("onrender.com")
+  ? "https://loja2-dzd1.onrender.com"
+  : "http://localhost:3000";
 
 let isAdminLoggedIn = localStorage.getItem("adminLoggedIn") === "true";
 
@@ -35,7 +36,7 @@ async function carregarProdutos() {
       const errorText = await response.text();
       console.error("Erro ao carregar produtos:", response.status, errorText);
       throw new Error(
-        `Falha ao carregar produtos do servidor: ${response.status}`
+        `Falha ao carregar produtos do servidor: ${response.status}`,
       );
     }
   } catch (error) {
@@ -71,7 +72,7 @@ function exibirProdutos() {
                     ? `<img src="${produto.imagem}" alt="${
                         produto.nome
                       }" onerror="this.style.display='none'; this.parentNode.innerHTML='${getEmojiCategoria(
-                        produto.categoria
+                        produto.categoria,
                       )}'">`
                     : getEmojiCategoria(produto.categoria)
                 }
@@ -172,7 +173,7 @@ function atualizarCarrinho() {
   // Atualizar contador
   const totalItens = carrinho.reduce(
     (total, item) => total + item.quantidade,
-    0
+    0,
   );
   cartCount.textContent = totalItens;
 
@@ -213,7 +214,7 @@ function atualizarCarrinho() {
   // Atualizar total
   const total = carrinho.reduce(
     (total, item) => total + item.preco * item.quantidade,
-    0
+    0,
   );
   cartTotal.textContent = total.toFixed(2);
 }
@@ -270,7 +271,7 @@ async function finalizarPedido() {
       itens: carrinho,
       total: carrinho.reduce(
         (total, item) => total + item.preco * item.quantidade,
-        0
+        0,
       ),
       cliente: cliente,
       telefone: telefone,
@@ -313,13 +314,13 @@ function criarMensagemWhatsApp(pedido) {
   mensagem += `*Telefone:* ${pedido.telefone}\n`;
   mensagem += `*Endereço:* ${pedido.endereco}\n`;
   mensagem += `*Data:* ${new Date(pedido.timestamp).toLocaleDateString(
-    "pt-BR"
+    "pt-BR",
   )}\n\n`;
   mensagem += `*ITENS DO PEDIDO:*\n`;
 
   pedido.itens.forEach((item) => {
     mensagem += `• ${item.nome} - ${item.quantidade}x R$ ${item.preco.toFixed(
-      2
+      2,
     )}\n`;
   });
 
@@ -516,13 +517,13 @@ function mostrarPainelAdmin() {
                                   produto.imagem
                                     ? `<img src="${produto.imagem}" alt="${produto.nome}" style="width: 40px; height: 40px; border-radius: 8px; object-fit: cover;">`
                                     : `<div style="width: 40px; height: 40px; background: #f0f0f0; border-radius: 8px; display: flex; align-items: center; justify-content: center;">${getEmojiCategoria(
-                                        produto.categoria
+                                        produto.categoria,
                                       )}</div>`
                                 }
                                 <div>
                                     <strong>${produto.nome}</strong>
                                     <div style="font-size: 0.9rem; color: #666;">R$ ${produto.preco.toFixed(
-                                      2
+                                      2,
                                     )} - ${produto.categoria}</div>
                                 </div>
                             </div>
@@ -532,7 +533,7 @@ function mostrarPainelAdmin() {
                                 Remover
                             </button>
                         </div>
-                    `
+                    `,
                       )
                       .join("")}
                 </div>
@@ -570,8 +571,8 @@ function mostrarPainelAdmin() {
                     }" alt="Preview" style="max-width: 200px; max-height: 150px; border-radius: 8px; border: 2px solid #8b5cf6;">
                     <div style="margin-top: 0.5rem; color: #666; font-size: 0.9rem;">
                         ${file.name} (${(file.size / 1024 / 1024).toFixed(
-            2
-          )} MB)
+                          2,
+                        )} MB)
                         <br><button type="button" onclick="removerImagem()" style="background: #ef4444; color: white; border: none; padding: 0.3rem 0.6rem; border-radius: 4px; cursor: pointer; font-size: 0.8rem; margin-top: 0.3rem;">Remover Imagem</button>
                     </div>
                 `;
@@ -628,7 +629,7 @@ async function adicionarProdutoComImagem() {
       fecharModal(
         document
           .getElementById("form-produto")
-          .closest('div[style*="position: fixed"]')
+          .closest('div[style*="position: fixed"]'),
       );
       await carregarProdutos(); // Recarrega a lista
       location.reload(); // Recarrega a página para mostrar o novo produto
