@@ -68,39 +68,8 @@ loja2/
 ```
 
 ---
-
-## 🔧 Como Rodar o Projeto Localmente
-
-### Pré-requisitos
-
-- Node.js instalado.
-- Uma conta no MongoDB Atlas (ou MongoDB local).
-
-### Passo a Passo
-
-1. **Clone o repositório**
-
-   ```bash
-   git clone https://github.com/seu-usuario/loja2.git
-   cd loja2
-   ```
-
-2. **Instale as dependências**
-
-   ```bash
-   npm install
-   ```
-
-
-
-3. **Inicie o Servidor**
-
-   ```bash
-   node server.js
-   ```
-
-4. **Acesse a Aplicação**
-   Abra seu navegador em: `http://localhost:3000`
+ ** 🔧 Acesse a Aplicação**
+   Abra seu navegador em: https://dutra065157.github.io/loja2/
 
 ---
 
