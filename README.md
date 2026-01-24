@@ -91,21 +91,15 @@ loja2/
    npm install
    ```
 
-3. **Configure as Variáveis de Ambiente**
-   Crie um arquivo `.env` na raiz do projeto e adicione sua string de conexão do MongoDB:
 
-   ```env
-   MONGODB_URI=sua_string_de_conexao_mongodb_aqui
-   PORT=3000
-   ```
 
-4. **Inicie o Servidor**
+3. **Inicie o Servidor**
 
    ```bash
    node server.js
    ```
 
-5. **Acesse a Aplicação**
+4. **Acesse a Aplicação**
    Abra seu navegador em: `http://localhost:3000`
 
 ---
@@ -115,7 +109,7 @@ loja2/
 Para testar as funcionalidades de vendedor localmente:
 
 1. Clique no botão "Vendedor" (ou acesse via console/login).
-2. **Senha padrão:** `graca123` (Configurada em `script.js`).
+
 
 ---
 
@@ -127,4 +121,4 @@ Para testar as funcionalidades de vendedor localmente:
 
 ---
 
-Desenvolvido com 💜 por [Seu Nome]
+Desenvolvido com 💜 por [RenatoSantos]
