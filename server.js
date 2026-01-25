@@ -24,7 +24,7 @@ const MONGO_URI = process.env.MONGODB_URI;
 
 if (!MONGO_URI) {
   console.error(
-    "❌ Erro: A variável de ambiente MONGODB_URI não foi definida. Crie um arquivo .env e adicione-a."
+    "❌ Erro: A variável de ambiente MONGODB_URI não foi definida. Crie um arquivo .env e adicione-a.",
   );
   process.exit(1); // Encerra a aplicação se a string de conexão não estiver presente
 }
@@ -46,6 +46,9 @@ if (!fs.existsSync(imagesDir)) {
 // Servir arquivos estáticos (HTML, CSS, JS, e as imagens que vamos salvar)
 app.use(express.static(__dirname)); // Serve a pasta 'c:\loja2'
 app.use("/images", express.static(path.join(__dirname, "images"))); // Torna a pasta 'images' acessível via URL
+
+// Evitar erro 404 do favicon no console
+app.get("/favicon.ico", (req, res) => res.status(204).end());
 
 // --- Rotas da API ---
 // Diz ao Express para usar o arquivo de rotas para qualquer requisição que comece com '/api/produtos'
