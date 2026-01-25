@@ -8,6 +8,10 @@ Uma aplicação web completa de comércio eletrônico desenvolvida para gerencia
 
 ---
 
+## 🌐 Link do Projeto
+
+Acesse a aplicação online: **[Graça Presentes - App Web](https://loja2-dzd1.onrender.com)**
+
 ## 🚀 Funcionalidades
 
 ### 👤 Para o Cliente
@@ -24,7 +28,7 @@ Uma aplicação web completa de comércio eletrônico desenvolvida para gerencia
 
 - **Autenticação Simples:** Sistema de login para acesso restrito.
 - **Gestão de Produtos:**
-  - Adicionar novos produtos com Upload de Imagem (Multer).
+  - Adicionar novos produtos com Upload de Imagem (Integrado com **Cloudinary**).
   - Visualizar lista de produtos cadastrados.
   - Excluir produtos do catálogo.
 - **Preview de Imagem:** Visualização da imagem antes de fazer o upload.
@@ -41,7 +45,7 @@ Uma aplicação web completa de comércio eletrônico desenvolvida para gerencia
 ### Back-end
 
 - **Node.js & Express:** Servidor robusto e criação da API RESTful.
-- **Multer:** Middleware para gerenciamento de upload de arquivos (imagens).
+- **Multer & Cloudinary:** Middleware para upload e armazenamento de imagens na nuvem.
 - **CORS:** Configuração de segurança para requisições cruzadas.
 - **Dotenv:** Gerenciamento de variáveis de ambiente.
 
@@ -68,8 +72,9 @@ loja2/
 ```
 
 ---
- ** 🔧 Acesse a Aplicação**
-   Abra seu navegador em: https://dutra065157.github.io/loja2/
+
+** 🔧 Acesse a Aplicação**
+Abra seu navegador em: https://dutra065157.github.io/loja2/
 
 ---
 
@@ -78,7 +83,6 @@ loja2/
 Para testar as funcionalidades de vendedor localmente:
 
 1. Clique no botão "Vendedor" (ou acesse via console/login).
-
 
 ---
 
