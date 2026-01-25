@@ -72,8 +72,9 @@ loja2/
 ```
 
 ---
- ** 🔧 Acesse a Aplicação**
-   Abra seu navegador em: https://dutra065157.github.io/loja2/
+
+** 🔧 Acesse a Aplicação**
+Abra seu navegador em: https://dutra065157.github.io/loja2/
 
 ---
 
@@ -82,7 +83,6 @@ loja2/
 Para testar as funcionalidades de vendedor localmente:
 
 1. Clique no botão "Vendedor" (ou acesse via console/login).
-
 
 ---
 
