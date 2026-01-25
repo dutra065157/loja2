@@ -72,45 +72,8 @@ loja2/
 ```
 
 ---
-
-## 🔧 Como Rodar o Projeto Localmente
-
-### Pré-requisitos
-
-- Node.js instalado.
-- Uma conta no MongoDB Atlas (ou MongoDB local).
-
-### Passo a Passo
-
-1. **Clone o repositório**
-
-   ```bash
-   git clone https://github.com/seu-usuario/loja2.git
-   cd loja2
-   ```
-
-2. **Instale as dependências**
-
-   ```bash
-   npm install
-   ```
-
-3. **Configure as Variáveis de Ambiente**
-   Crie um arquivo `.env` na raiz do projeto e adicione sua string de conexão do MongoDB:
-
-   ```env
-   MONGODB_URI=sua_string_de_conexao_mongodb_aqui
-   PORT=3000
-   ```
-
-4. **Inicie o Servidor**
-
-   ```bash
-   node server.js
-   ```
-
-5. **Acesse a Aplicação**
-   Abra seu navegador em: `http://localhost:3000`
+ ** 🔧 Acesse a Aplicação**
+   Abra seu navegador em: https://dutra065157.github.io/loja2/
 
 ---
 
@@ -119,7 +82,7 @@ loja2/
 Para testar as funcionalidades de vendedor localmente:
 
 1. Clique no botão "Vendedor" (ou acesse via console/login).
-2. **Senha padrão:** `graca123` (Configurada em `script.js`).
+
 
 ---
 
@@ -131,4 +94,4 @@ Para testar as funcionalidades de vendedor localmente:
 
 ---
 
-Desenvolvido com 💜 por [Seu Nome]
+Desenvolvido com 💜 por [RenatoSantos]
