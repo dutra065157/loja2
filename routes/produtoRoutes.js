@@ -33,7 +33,7 @@ router.post("/", upload.single("imagem"), async (req, res) => {
       descricao: req.body.descricao,
       preco: parseFloat(req.body.preco),
       categoria: req.body.categoria,
-      imagem: req.file ? req.file.path : "",
+      imagem: req.file ? req.file.secure_url || req.file.path : "",
     };
 
     const novoProduto = new Produto(dadosProduto);
