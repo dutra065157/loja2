@@ -1,29 +1,21 @@
 const mongoose = require("mongoose");
 
-// Função para gerar um número de pedido simples
-function gerarNumeroPedido() {
-  const timestamp = Date.now();
-  const random = Math.floor(Math.random() * 1000);
-  return `${timestamp}-${random}`;
-}
-
 const pedidoSchema = new mongoose.Schema({
-  numero_pedido: {
-    type: String,
-    default: gerarNumeroPedido,
-    unique: true,
-  },
-  itens: { type: Array, required: true },
-  total: { type: Number, required: true },
   cliente: { type: String, required: true },
   telefone: { type: String, required: true },
   endereco: { type: String, required: true },
-  timestamp: {
-    type: Date,
-    default: Date.now,
-  },
+  itens: { type: Array, required: true },
+  total: { type: Number, required: true },
+  numero_pedido: { type: String },
+  timestamp: { type: Date, default: Date.now },
 });
 
-const Pedido = mongoose.model("Pedido", pedidoSchema);
+// Gera um número de pedido aleatório antes de salvar (ex: #123456)
+pedidoSchema.pre("save", function (next) {
+  if (!this.numero_pedido) {
+    this.numero_pedido = "#" + Math.floor(100000 + Math.random() * 900000);
+  }
+  next();
+});
 
-module.exports = Pedido;
+module.exports = mongoose.model("Pedido", pedidoSchema);

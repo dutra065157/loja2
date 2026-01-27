@@ -21,7 +21,7 @@ Acesse a aplicação online: **[Graça Presentes - App Web](https://loja2-dzd1.o
   - Adicionar/Remover itens.
   - Ajuste de quantidade em tempo real.
   - Persistência de dados (o carrinho não some ao atualizar a página) usando `localStorage`.
-- **Checkout via WhatsApp:** Integração que gera uma mensagem formatada com o pedido e envia diretamente para o vendedor.
+- **Checkout com Revisão:** Modal de resumo para conferência de itens e dados antes do envio via WhatsApp.
 - **Categorias:** Filtragem visual por emojis e tipos de produto (Perfumes, Skincare, etc.).
 
 ### 🛡️ Painel Administrativo (Vendedor)
@@ -29,6 +29,7 @@ Acesse a aplicação online: **[Graça Presentes - App Web](https://loja2-dzd1.o
 - **Autenticação Simples:** Sistema de login para acesso restrito.
 - **Gestão de Produtos:**
   - Adicionar novos produtos com Upload de Imagem (Integrado com **Cloudinary**).
+  - **Dashboard de Vendas:** Visualização de faturamento total, contagem de pedidos e histórico detalhado dos últimos pedidos.
   - Visualizar lista de produtos cadastrados.
   - Excluir produtos do catálogo.
 - **Preview de Imagem:** Visualização da imagem antes de fazer o upload.
@@ -90,7 +91,7 @@ Para testar as funcionalidades de vendedor localmente:
 
 - [ ] Implementar autenticação JWT para o login de admin.
 - [ ] Armazenamento de imagens em nuvem (Cloudinary/AWS S3) para persistência em produção.
-- [ ] Histórico de pedidos no painel administrativo.
+- [x] Histórico de pedidos no painel administrativo.
 
 ---
 
