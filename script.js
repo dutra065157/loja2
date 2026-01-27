@@ -1,5 +1,6 @@
 // Sistema de Admin
 const ADMIN_PASSWORD = "graca123"; // Senha simples para o vendedor
+const WHATSAPP_VENDEDOR = "5519987790800"; // Configuração centralizada do WhatsApp
 
 // URL da nossa API - AGORA NO RENDER
 // Ajuste automático: detecta se está no Render ou no computador local
@@ -251,21 +252,150 @@ function mostrarNotificacao(mensagem) {
 }
 
 // Finalizar pedido
-async function finalizarPedido() {
+function finalizarPedido() {
   if (carrinho.length === 0) {
-    alert("Seu carrinho está vazio!");
+    mostrarNotificacao("Seu carrinho está vazio!");
     return;
   }
+  abrirModalCheckout();
+}
 
-  // Coletar dados do cliente
-  const cliente = prompt("Digite seu nome:");
-  const telefone = prompt("Digite seu WhatsApp:");
-  const endereco = prompt("Digite seu endereço para entrega:");
+// Novo fluxo de Checkout com Modal (Melhor UX)
+function abrirModalCheckout(nome = "", telefone = "", endereco = "") {
+  const modal = document.createElement("div");
+  modal.style.cssText = `
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center;
+        z-index: 4000;
+    `;
 
-  if (!cliente || !telefone || !endereco) {
-    alert("Todos os dados são obrigatórios!");
-    return;
+  modal.innerHTML = `
+        <div style="background: white; padding: 2rem; border-radius: 15px; width: 90%; max-width: 400px;">
+            <h2 style="color: #8b5cf6; margin-bottom: 1.5rem; text-align: center;">Finalizar Compra</h2>
+            <form id="form-checkout" style="display: flex; flex-direction: column; gap: 1rem;">
+                <input type="text" id="checkout-nome" placeholder="Seu Nome Completo" value="${nome}" required 
+                    style="padding: 1rem; border: 1px solid #ddd; border-radius: 8px;">
+                
+                <input type="tel" id="checkout-telefone" placeholder="Seu WhatsApp (com DDD)" value="${telefone}" required minlength="10"
+                    style="padding: 1rem; border: 1px solid #ddd; border-radius: 8px;">
+                
+                <textarea id="checkout-endereco" placeholder="Endereço Completo para Entrega" required 
+                    style="padding: 1rem; border: 1px solid #ddd; border-radius: 8px; height: 80px; resize: none;">${endereco}</textarea>
+                
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <button type="button" onclick="fecharModal(this)" style="flex: 1; background: #6b7280; color: white; border: none; padding: 1rem; border-radius: 8px; cursor: pointer;">Cancelar</button>
+                    <button type="submit" style="flex: 1; background: #10b981; color: white; border: none; padding: 1rem; border-radius: 8px; cursor: pointer; font-weight: bold;">
+                        Revisar Pedido
+                    </button>
+                </div>
+            </form>
+        </div>
+    `;
+
+  document.body.appendChild(modal);
+
+  // Adicionar evento de submit ao formulário
+  document
+    .getElementById("form-checkout")
+    .addEventListener("submit", exibirResumoPedido);
+}
+
+function exibirResumoPedido(e) {
+  e.preventDefault(); // Impede o recarregamento da página
+
+  // Captura os dados do formulário
+  const cliente = document.getElementById("checkout-nome").value;
+  const telefone = document.getElementById("checkout-telefone").value;
+  const endereco = document.getElementById("checkout-endereco").value;
+
+  // Fecha o modal de formulário atual
+  const modalFormulario = e.target.closest('div[style*="position: fixed"]');
+  if (modalFormulario) {
+    modalFormulario.remove();
   }
+
+  // Abre o Modal de Resumo
+  mostrarModalResumo(cliente, telefone, endereco);
+}
+
+function mostrarModalResumo(cliente, telefone, endereco) {
+  const total = carrinho.reduce(
+    (acc, item) => acc + item.preco * item.quantidade,
+    0,
+  );
+
+  const modal = document.createElement("div");
+  modal.style.cssText = `
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center;
+        z-index: 4000;
+    `;
+
+  // Gera a lista de itens em HTML
+  const itensHtml = carrinho
+    .map(
+      (item) => `
+    <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #eee;">
+        <span>${item.quantidade}x ${item.nome}</span>
+        <span>R$ ${(item.preco * item.quantidade).toFixed(2)}</span>
+    </div>
+  `,
+    )
+    .join("");
+
+  modal.innerHTML = `
+        <div style="background: white; padding: 2rem; border-radius: 15px; width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto;">
+            <h2 style="color: #8b5cf6; margin-bottom: 1rem; text-align: center;">📝 Resumo do Pedido</h2>
+            
+            <div style="background: #f9fafb; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                <h4 style="color: #333; margin-bottom: 0.5rem;">Itens do Carrinho:</h4>
+                <div style="max-height: 150px; overflow-y: auto; margin-bottom: 0.5rem;">
+                    ${itensHtml}
+                </div>
+                <div style="text-align: right; font-weight: bold; font-size: 1.1rem; color: #8b5cf6; margin-top: 0.5rem; border-top: 2px solid #eee; padding-top: 0.5rem;">
+                    Total: R$ ${total.toFixed(2)}
+                </div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: #333; margin-bottom: 0.5rem;">Dados de Entrega:</h4>
+                <p style="margin: 0.2rem 0; color: #666;"><strong>Nome:</strong> ${cliente}</p>
+                <p style="margin: 0.2rem 0; color: #666;"><strong>Telefone:</strong> ${telefone}</p>
+                <p style="margin: 0.2rem 0; color: #666;"><strong>Endereço:</strong> ${endereco}</p>
+            </div>
+
+            <div style="display: flex; gap: 1rem;">
+                <button id="btn-voltar-resumo" style="flex: 1; background: #6b7280; color: white; border: none; padding: 1rem; border-radius: 8px; cursor: pointer;">
+                    <i class="fas fa-arrow-left"></i> Voltar
+                </button>
+                <button id="btn-finalizar-real" style="flex: 1; background: #10b981; color: white; border: none; padding: 1rem; border-radius: 8px; cursor: pointer; font-weight: bold;">
+                    Confirmar Tudo <i class="fas fa-check"></i>
+                </button>
+            </div>
+        </div>
+    `;
+
+  document.body.appendChild(modal);
+
+  // Evento Voltar (Reabre o formulário com os dados preenchidos)
+  document.getElementById("btn-voltar-resumo").onclick = function () {
+    fecharModal(this);
+    abrirModalCheckout(cliente, telefone, endereco);
+  };
+
+  // Evento Confirmar (Envia para API)
+  document.getElementById("btn-finalizar-real").onclick = function () {
+    confirmarEnvioPedido(cliente, telefone, endereco, this);
+  };
+}
+
+async function confirmarEnvioPedido(cliente, telefone, endereco, btnElement) {
+  const originalText = btnElement.innerText;
+
+  // Feedback de Loading (UX)
+  btnElement.disabled = true;
+  btnElement.innerText = "Enviando...";
+  btnElement.style.opacity = "0.7";
 
   try {
     const pedidoData = {
@@ -279,12 +409,9 @@ async function finalizarPedido() {
       endereco: endereco,
     };
 
-    // Enviar para API
     const response = await fetch(`${API_URL}/api/pedidos`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(pedidoData),
     });
 
@@ -292,11 +419,13 @@ async function finalizarPedido() {
       const pedido = await response.json();
       const mensagem = criarMensagemWhatsApp(pedido);
 
-      // Limpar carrinho
       carrinho = [];
       salvarCarrinho();
       atualizarCarrinho();
       toggleCart();
+
+      // Fecha o modal de checkout
+      fecharModal(btnElement);
 
       mostrarSucessoPedido(pedido, mensagem);
     } else {
@@ -304,7 +433,11 @@ async function finalizarPedido() {
     }
   } catch (error) {
     console.error("Erro:", error);
-    alert("Erro ao enviar pedido. Tente novamente.");
+    mostrarNotificacao("Erro ao processar pedido. Tente novamente.");
+    // Restaura o botão em caso de erro
+    btnElement.disabled = false;
+    btnElement.innerText = originalText;
+    btnElement.style.opacity = "1";
   }
 }
 
@@ -332,8 +465,6 @@ function criarMensagemWhatsApp(pedido) {
 }
 
 function mostrarSucessoPedido(pedido, mensagemWhatsApp) {
-  const numeroWhatsApp = "5519987790800"; // ✅ SUBSTITUA AQUI pelo número real do vendedor (ex: 5511987654321)
-
   const modal = document.createElement("div");
   modal.style.cssText = `
         position: fixed;
@@ -376,7 +507,7 @@ function mostrarSucessoPedido(pedido, mensagemWhatsApp) {
                     border-radius: 25px;
                     cursor: pointer;
                 ">Fechar</button>
-                <button onclick="enviarWhatsApp('${numeroWhatsApp}', '${mensagemWhatsApp}')" style="
+                <button onclick="enviarWhatsApp('${WHATSAPP_VENDEDOR}', '${mensagemWhatsApp}')" style="
                     background: #25d366;
                     color: white;
                     border: none;
@@ -431,8 +562,95 @@ function logoutAdmin() {
   location.reload();
 }
 
-// Painel do Vendedor COM UPLOAD DE IMAGEM
-function mostrarPainelAdmin() {
+// Painel do Vendedor COM UPLOAD DE IMAGEM E RESUMO DE PEDIDOS
+async function mostrarPainelAdmin() {
+  // 1. Buscar os pedidos da API
+  let pedidosAdmin = [];
+  let faturamentoTotal = 0;
+  try {
+    const response = await fetch(`${API_URL}/api/pedidos`);
+    if (response.ok) {
+      pedidosAdmin = await response.json();
+      faturamentoTotal = pedidosAdmin.reduce(
+        (acc, pedido) => acc + pedido.total,
+        0,
+      );
+    } else {
+      console.error("Falha ao carregar pedidos para o painel de admin.");
+    }
+  } catch (error) {
+    console.error("Erro ao buscar pedidos:", error);
+  }
+
+  // 2. Criar o HTML para o resumo e a lista de pedidos
+  const resumoPedidosHtml = `
+    <div style="margin-bottom: 2rem; background: #f9fafb; padding: 1.5rem; border-radius: 8px;">
+        <h3 style="color: #333; margin-bottom: 1rem; border-bottom: 2px solid #eee; padding-bottom: 0.5rem;">📊 Resumo de Vendas</h3>
+        <div style="display: flex; justify-content: space-around; text-align: center;">
+            <div>
+                <p style="font-size: 1.5rem; font-weight: bold; color: #8b5cf6;">${
+                  pedidosAdmin.length
+                }</p>
+                <p style="color: #666; font-size: 0.9rem;">Total de Pedidos</p>
+            </div>
+            <div>
+                <p style="font-size: 1.5rem; font-weight: bold; color: #10b981;">R$ ${faturamentoTotal.toFixed(
+                  2,
+                )}</p>
+                <p style="color: #666; font-size: 0.9rem;">Faturamento Total</p>
+            </div>
+        </div>
+    </div>
+  `;
+
+  const listaPedidosHtml = `
+    <div style="margin-bottom: 2rem;">
+        <h3 style="color: #333; margin-bottom: 1rem;">Últimos Pedidos Recebidos</h3>
+        <div style="max-height: 350px; overflow-y: auto; border: 1px solid #eee; border-radius: 8px;">
+            ${
+              pedidosAdmin.length === 0
+                ? '<p style="padding: 1rem; text-align: center; color: #666;">Nenhum pedido encontrado.</p>'
+                : pedidosAdmin
+                    .map(
+                      (pedido) => `
+                <div style="padding: 1rem; border-bottom: 1px solid #eee;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                        <strong style="font-size: 0.9rem;">Pedido: ${
+                          pedido.numero_pedido
+                        }</strong>
+                        <span style="font-weight: bold; color: #10b981;">R$ ${pedido.total.toFixed(
+                          2,
+                        )}</span>
+                    </div>
+                    <p style="font-size: 0.9rem; color: #666; margin: 0.2rem 0;"><strong>Cliente:</strong> ${
+                      pedido.cliente
+                    }</p>
+                    <p style="font-size: 0.9rem; color: #666; margin: 0.2rem 0;"><strong>Data:</strong> ${new Date(
+                      pedido.timestamp,
+                    ).toLocaleString("pt-BR")}</p>
+                    <details style="margin-top: 0.5rem; font-size: 0.9rem;">
+                        <summary style="cursor: pointer; color: #8b5cf6;">Ver Itens (${
+                          pedido.itens.length
+                        })</summary>
+                        <ul style="list-style-type: none; padding-left: 1rem; margin-top: 0.5rem; color: #555;">
+                            ${pedido.itens
+                              .map(
+                                (item) =>
+                                  `<li>• ${item.quantidade}x ${item.nome}</li>`,
+                              )
+                              .join("")}
+                        </ul>
+                    </details>
+                </div>
+            `,
+                    )
+                    .join("")
+            }
+        </div>
+    </div>
+  `;
+
+  // 3. Montar o modal
   const modal = document.createElement("div");
   modal.style.cssText = `
         position: fixed;
@@ -455,13 +673,18 @@ function mostrarPainelAdmin() {
             max-width: 90%;
             max-height: 90vh;
             overflow-y: auto;
-            width: 500px;
+            width: 600px; /* Largura aumentada */
         ">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
                 <h2 style="color: #8b5cf6;">🛍️ Painel do Vendedor</h2>
                 <button onclick="fecharModal(this)" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">×</button>
             </div>
             
+            ${resumoPedidosHtml}
+            ${listaPedidosHtml}
+
+            <hr style="border: none; border-top: 1px solid #ddd; margin: 2rem 0;">
+
             <div style="margin-bottom: 2rem;">
                 <h3 style="color: #333; margin-bottom: 1rem;">Adicionar Novo Produto</h3>
                 <form id="form-produto" style="display: flex; flex-direction: column; gap: 1rem;">
@@ -479,7 +702,7 @@ function mostrarPainelAdmin() {
                     </select>
                     
                     <!-- Upload de imagem do computador -->
-                    <div style="border: 2px dashed #ddd; padding: 1.5rem; text-align: center; border-radius: 8px; background: #fafafa;">
+                    <div style="border: 2px dashed #ddd; padding: 1.5rem; text-align: center; border-radius: 8px; background: #fafafa; margin-top: 0.5rem;">
                         <input type="file" id="produto-imagem" accept=".jpg,.jpeg,.png,.gif,.webp" style="display: none;">
                         <div id="imagem-preview" style="margin-bottom: 1rem;"></div>
                         <button type="button" onclick="document.getElementById('produto-imagem').click()" style="
