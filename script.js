@@ -429,11 +429,13 @@ async function confirmarEnvioPedido(cliente, telefone, endereco, btnElement) {
 
       mostrarSucessoPedido(pedido, mensagem);
     } else {
-      throw new Error("Erro ao enviar pedido");
+      const errorData = await response.json();
+      throw new Error(errorData.detail || "Erro ao enviar pedido");
     }
   } catch (error) {
     console.error("Erro:", error);
-    mostrarNotificacao("Erro ao processar pedido. Tente novamente.");
+    // Mostra um alerta mais detalhado para facilitar a depuração
+    alert("❌ Erro ao processar pedido: " + error.message);
     // Restaura o botão em caso de erro
     btnElement.disabled = false;
     btnElement.innerText = originalText;
@@ -562,6 +564,40 @@ function logoutAdmin() {
   location.reload();
 }
 
+// Função para zerar todos os pedidos (Limpar Histórico)
+async function zerarPedidos() {
+  if (
+    !confirm(
+      "⚠️ PERIGO: Tem certeza que deseja APAGAR TODOS os pedidos do histórico?\n\nEssa ação não pode ser desfeita!",
+    )
+  ) {
+    return;
+  }
+
+  const senha = prompt("Digite a senha de administrador para confirmar:");
+  if (senha !== ADMIN_PASSWORD) {
+    alert("Senha incorreta! Ação cancelada.");
+    return;
+  }
+
+  try {
+    const response = await fetch(`${API_URL}/api/pedidos`, {
+      method: "DELETE",
+    });
+
+    if (response.ok) {
+      alert("✅ Histórico de pedidos limpo com sucesso!");
+      document.querySelector('div[style*="position: fixed"]').remove(); // Fecha modal
+      mostrarPainelAdmin(); // Reabre atualizado
+    } else {
+      throw new Error("Erro ao limpar histórico");
+    }
+  } catch (error) {
+    console.error("Erro:", error);
+    alert("❌ Erro ao tentar limpar o histórico.");
+  }
+}
+
 // Painel do Vendedor COM UPLOAD DE IMAGEM E RESUMO DE PEDIDOS
 async function mostrarPainelAdmin() {
   // 1. Buscar os pedidos da API
@@ -605,7 +641,14 @@ async function mostrarPainelAdmin() {
 
   const listaPedidosHtml = `
     <div style="margin-bottom: 2rem;">
-        <h3 style="color: #333; margin-bottom: 1rem;">Últimos Pedidos Recebidos</h3>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h3 style="color: #333; margin: 0;">Últimos Pedidos Recebidos</h3>
+            ${
+              pedidosAdmin.length > 0
+                ? `<button onclick="zerarPedidos()" style="background: #ef4444; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 5px; cursor: pointer; font-size: 0.8rem;"><i class="fas fa-trash"></i> Limpar Histórico</button>`
+                : ""
+            }
+        </div>
         <div style="max-height: 350px; overflow-y: auto; border: 1px solid #eee; border-radius: 8px;">
             ${
               pedidosAdmin.length === 0

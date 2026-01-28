@@ -11,11 +11,10 @@ const pedidoSchema = new mongoose.Schema({
 });
 
 // Gera um número de pedido aleatório antes de salvar (ex: #123456)
-pedidoSchema.pre("save", function (next) {
+pedidoSchema.pre("save", function () {
   if (!this.numero_pedido) {
     this.numero_pedido = "#" + Math.floor(100000 + Math.random() * 900000);
   }
-  next();
 });
 
 module.exports = mongoose.model("Pedido", pedidoSchema);

@@ -1,7 +1,7 @@
 # 🛍️ E-commerce Fullstack - Graça Presentes
 
-![Status do Projeto](https://img.shields.io/badge/Status-Em_Desenvolvimento-yellow)
-![NodeJS](https://img.shields.io/badge/Node.js-v18+-green)
+![Status do Projeto](https://img.shields.io/badge/Status-Ativo_%26_Em_Melhorias-brightgreen)
+![NodeJS](https://img.shields.io/badge/Node.js-v18%2B-green)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Database-green)
 
 Uma aplicação web completa de comércio eletrônico desenvolvida para gerenciar vendas de produtos de beleza e presentes. O projeto conta com uma interface responsiva para clientes e um painel administrativo seguro para gerenciamento de estoque, utilizando uma arquitetura **REST API**.
@@ -48,6 +48,7 @@ Acesse a aplicação online: **[Graça Presentes - App Web](https://loja2-dzd1.o
 - **Node.js & Express:** Servidor robusto e criação da API RESTful.
 - **Multer & Cloudinary:** Middleware para upload e armazenamento de imagens na nuvem.
 - **CORS:** Configuração de segurança para requisições cruzadas.
+- **Render:** Plataforma de nuvem para hospedagem do back-end e front-end.
 - **Dotenv:** Gerenciamento de variáveis de ambiente.
 
 ### Banco de Dados
@@ -74,11 +75,6 @@ loja2/
 
 ---
 
-** 🔧 Acesse a Aplicação**
-Abra seu navegador em: https://dutra065157.github.io/loja2/
-
----
-
 ## 🔐 Acesso ao Painel Admin (Demo)
 
 Para testar as funcionalidades de vendedor localmente:
@@ -90,8 +86,9 @@ Para testar as funcionalidades de vendedor localmente:
 ## 🔮 Melhorias Futuras
 
 - [ ] Implementar autenticação JWT para o login de admin.
-- [ ] Armazenamento de imagens em nuvem (Cloudinary/AWS S3) para persistência em produção.
+- [x] Armazenamento de imagens em nuvem (**Cloudinary**) para persistência em produção.
 - [x] Histórico de pedidos no painel administrativo.
+- [ ] Adicionar status ao pedido (Pendente, Enviado, Entregue).
 
 ---
 

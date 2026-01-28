@@ -33,4 +33,18 @@ router.post("/", async (req, res) => {
   }
 });
 
+// Rota para excluir todos os pedidos (DELETE /api/pedidos)
+router.delete("/", async (req, res) => {
+  try {
+    await Pedido.deleteMany({});
+    res
+      .status(200)
+      .json({ message: "Todos os pedidos foram excluídos com sucesso." });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ detail: "Erro ao excluir pedidos: " + error.message });
+  }
+});
+
 module.exports = router;
